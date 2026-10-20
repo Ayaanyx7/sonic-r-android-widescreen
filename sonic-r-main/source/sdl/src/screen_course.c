@@ -55,6 +55,8 @@ int CourseSelectScreen(void)
 #ifdef SONICR_DC
     if (RunningFromSlowMedia()) PauseCD();   /* slow media: hold music so the load can't starve the stream */
 #endif
+    /* UI textures start at tpage 17 so track preview models (0-12) and character models (14-15) are preserved */
+    g_uiTexPage = 17;
     SetupMenuTexturesD3D();
     LoadTPageRGB(g_uiTexPage, PATH_GENERAL_RAW);
     TintBackgroundTPage(g_bgTintR, g_bgTintG, g_bgTintB);
@@ -559,6 +561,8 @@ int MultiPlayerScreen(void)
 #ifdef SONICR_DC
     if (RunningFromSlowMedia()) PauseCD();   /* slow media: hold music so the load can't starve the stream */
 #endif
+    /* UI textures start at tpage 17 so track preview models (0-12) and character models (14-15) are preserved */
+    g_uiTexPage = 17;
     SetupMenuTexturesD3D();
     LoadTPageRGB(g_uiTexPage, PATH_GENERAL_RAW);
     TintBackgroundTPage(g_bgTintR, g_bgTintG, g_bgTintB);
