@@ -160,6 +160,14 @@ void InitDefaultTimeTables(void)
     }
 
     g_saveStateFlag = 0;
+
+    g_saveBlock[5] = 1;     // Unlocks Radiant Emerald
+    g_saveBlock[10] = 2;    // Unlocks Dr. Robotnik
+    g_saveBlock[11] = 2;    // Unlocks Metal Sonic
+    g_saveBlock[12] = 2;    // Unlocks Tails Doll
+    g_saveBlock[13] = 2;    // Unlocks Metal Knuckles
+    g_saveBlock[14] = 2;    // Unlocks Egg Robo
+    g_saveBlock[15] = 2;    // Unlocks Super Sonic
 }
 
 /* Demo replay filename table — extracted from ROM at 0x507604 */
