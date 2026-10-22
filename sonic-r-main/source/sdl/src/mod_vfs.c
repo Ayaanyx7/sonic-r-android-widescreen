@@ -587,8 +587,8 @@ int VFS_ResolvePath(const char *rel_path, char *out_path, size_t out_len)
     candidates[cand_count++] = p;
 
     /* CUSTOM DYNAMIC ASSET REDIRECTION */
-static char dynamic_srm_cand[256];
-static char dynamic_raw_cand[256];
+char dynamic_srm_cand[256];
+char dynamic_raw_cand[256];
 
 // Check if the game is requesting an .SRM model file from any subdirectory
 if (strstr(p, ".srm") != NULL || strstr(p, ".SRM") != NULL) {
