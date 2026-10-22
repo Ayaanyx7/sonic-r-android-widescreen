@@ -586,6 +586,35 @@ int VFS_ResolvePath(const char *rel_path, char *out_path, size_t out_len)
     /* Candidate 0: Cleaned path as-is (e.g. "GENERAL/PLAYER00.RAW") */
     candidates[cand_count++] = p;
 
+    /* CUSTOM DYNAMIC ASSET REDIRECTION */
+static char dynamic_srm_cand[256];
+static char dynamic_raw_cand[256];
+
+// Check if the game is requesting an .SRM model file from any subdirectory
+if (strstr(p, ".srm") != NULL || strstr(p, ".SRM") != NULL) {
+    // Find the actual file name at the end of the path (e.g., "amy.srm" or "knux.srm")
+    const char *filename = strrchr(p, '/');
+    if (filename) filename++; // Skip the slash
+    else filename = p;        // No slash found, use string as-is
+
+    // Dynamically point the VFS to look in your mod's clean "files/models/" directory
+    snprintf(dynamic_srm_cand, sizeof(dynamic_srm_cand), "files/models/%s", filename);
+    candidates[cand_count++] = dynamic_srm_cand;
+}
+
+// Check if the game is requesting a .RAW texture file from any subdirectory
+if (strstr(p, ".raw") != NULL || strstr(p, ".RAW") != NULL) {
+    const char *filename = strrchr(p, '/');
+    if (filename) filename++; 
+    else filename = p;        
+
+    // Dynamically point the VFS to look in your mod's clean "files/textures/" directory
+    snprintf(dynamic_raw_cand, sizeof(dynamic_raw_cand), "files/textures/%s", filename);
+    candidates[cand_count++] = dynamic_raw_cand;
+}
+/* END CUSTOM REDIRECTION */
+
+
     /* Candidate 1: Strip leading "data/" or "DATA/" if present */
     if (strncasecmp(p, "data/", 5) == 0) {
         const char *no_data = p + 5;
