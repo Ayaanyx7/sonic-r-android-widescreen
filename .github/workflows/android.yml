@@ -75,27 +75,6 @@ jobs:
       run: ./gradlew assembleDebug --no-daemon
       working-directory: app
 
-    - name: Auto-Update Binary Symbol Map
-      run: |
-        # Extract function/variable locations using NDK toolchain tools
-        $ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-nm -gC app/build/intermediates/merged_native_libs/debug/mergeDebugNativeLibs/out/lib/arm64-v8a/libmain.so > android_symbols.txt
-        
-        # Configure local git environment bot details
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        
-        # Stage the updated map file
-        git add android_symbols.txt
-        
-        # Check for modifications; commit and push back if changes exist
-        # "[skip ci]" ensures pushing doesn't spawn an infinite build loop
-        if ! git diff-index --quiet HEAD; then
-          git commit -m "chore: auto-update android symbol map [skip ci]"
-          git push
-        else
-          echo "Symbol layout unchanged. Skipping commit."
-        fi
-
     - name: Upload Finished APK Artifact
       uses: actions/upload-artifact@v4
       with:
