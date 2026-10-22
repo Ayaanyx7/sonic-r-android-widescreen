@@ -210,18 +210,19 @@ int CharacterSelectScreen(void)
 #ifdef SONICR_DC
     if (RunningFromSlowMedia()) PauseCD();   /* slow media: hold music so the load can't starve the stream */
 #endif
-    /* UI textures start at tpage 2 so they do not clobber character tpages 0 and 1 */
-    g_uiTexPage = 2;
+    /* UI textures start at tpage 17 so they do not clobber track preview models (0-12),
+     * option menu (13), character models (14-15), or icons (16). */
+    g_uiTexPage = 17;
     SetupMenuTexturesD3D();
 
-    /* Remap character faces to tpages 0 and 1 */
-    g_tpageCharacters = 0;
-    g_tpagePlayfield1 = 1;
+    /* Character textures in menu mode are at tpages 14 and 15 (set by InitOptionStuff) */
+    g_tpageCharacters = 14;
+    g_tpagePlayfield1 = 15;
     RemapCharacterTpages();
 
-    /* Reload character textures into tpages 0 and 1 (routes through VFS for active mods) */
-    LoadTPageRGB(0, PATH_PLAYER00_RAW);
-    LoadTPageRGB(1, PATH_PLAYER01_RAW);
+    /* Reload character textures into tpages 14 and 15 (routes through VFS for active mods) */
+    LoadTPageRGB(14, PATH_PLAYER00_RAW);
+    LoadTPageRGB(15, PATH_PLAYER01_RAW);
 
     LoadTPageRGB(g_uiTexPage, PATH_GENERAL_RAW);
     TintBackgroundTPage(g_bgTintR, g_bgTintG, g_bgTintB);

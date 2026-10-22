@@ -99,3 +99,4 @@ sonic-r-main/RES/
 !AppIcon.png
 recon-report.md
 *.log
+.agents/
