@@ -581,6 +581,7 @@ int VFS_ResolvePath(const char *rel_path, char *out_path, size_t out_len)
     const char *candidates[8];
     char gen_cand[MAX_MOD_PATH];
     char bin_cand[MAX_MOD_PATH];
+    char sfx_chand[MAX_MOD_PATH];
     int cand_count = 0;
 
     /* Candidate 0: Cleaned path as-is (e.g. "GENERAL/PLAYER00.RAW") */
@@ -614,6 +615,13 @@ int VFS_ResolvePath(const char *rel_path, char *out_path, size_t out_len)
         candidates[cand_count++] = gen_cand;
         snprintf(bin_cand, sizeof(bin_cand), "bin/%s", p);
         candidates[cand_count++] = bin_cand;
+    }
+
+    /* Placed after the closing brace `}` */
+    size_t p_len = strlen(p);
+    if (p_len > 4 && strcasecmp(p + p_len - 4, ".wav") == 0 && cand_count < 8) {
+        snprintf(sfx_cand, sizeof(sfx_cand), "sound/%s", p);
+        candidates[cand_count++] = sfx_cand;
     }
 
     /* Step 5: Check each active enabled mod in priority order */
